@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.filescontrol.HelloController">
+   <top>
+       <MenuBar BorderPane.alignment="CENTER">
+           <Menu mnemonicParsing="false" text="Файл">
+               <MenuItem fx:id="selectPath" mnemonicParsing="false" onAction="#selectPath" text="Выбор папки для отслеживания" />
+           </Menu>
+           <Menu mnemonicParsing="false" text="Помощь">
+               <MenuItem mnemonicParsing="false" onAction="#about" text="О программе" />
+           </Menu>
+       </MenuBar>
+   </top>
+   <center>
+       <VBox prefHeight="200.0" prefWidth="230.0" BorderPane.alignment="CENTER">
+           <Label text="Имя файла" />
+           <TextField fx:id="fileName" editable="false" />
+           <Label text="Дата изменения" />
+           <TextField fx:id="dateEdit" editable="false" />
+           <Label text="Пользователь" />
+           <TextField fx:id="userEdit" editable="false" />
+           <Label text="Причина изменения" />
+           <TextArea fx:id="causeEdit" prefHeight="200.0" prefWidth="200.0" />
+       </VBox>
+   </center>
+   <left>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <ListView fx:id="filesList" prefHeight="200.0" prefWidth="139.0" />
+            <ListView fx:id="fileStates" prefHeight="200.0" prefWidth="129.0" />
+         </children>
+      </HBox>
+   </left>
+</BorderPane>

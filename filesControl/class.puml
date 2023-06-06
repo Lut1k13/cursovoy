@@ -1,0 +1,109 @@
+@startuml
+class com.example.filescontrol.FilesControl.ListenedFile {
+- File file
+~ ObservableList<FileState> fileStates
++ File getFile()
++ List<FileState> getAll()
++ void save(FileState)
++ void update(FileState,String[])
++ void delete(FileState)
++ String toString()
+}
+class com.example.filescontrol.Watcher.FileEvent {
++ File getFile()
+}
+class com.example.filescontrol.Watcher.FileWatcher {
+# List<FileListener> listeners
+# File folder
+# {static} List<WatchService> watchServices
++ void watch()
++ void run()
+# boolean pollEvents(WatchService)
+# void notifyListeners(WatchEvent.Kind<?>,File)
++ FileWatcher addListener(FileListener)
++ FileWatcher removeListener(FileListener)
++ List<FileListener> getListeners()
++ FileWatcher setListeners(List<FileListener>)
++ {static} List<WatchService> getWatchServices()
+}
+class com.example.filescontrol.FilesControl.FileState {
+~ String title
+~ LocalDateTime edited
+~ String author
+~ String cause
+~ int id
++ String toString()
++ LocalDateTime getEdited()
++ String getAuthor()
++ String getTitle()
++ String getCause()
+}
+class com.example.filescontrol.FilesControl.FileState.FileStateBuilder {
+~ String title
+~ LocalDateTime edited
+~ String author
+~ String cause
+~ int id
++ FileStateBuilder setCause(String)
++ FileStateBuilder setId(int)
++ FileState build()
+}
+interface com.example.filescontrol.Watcher.FileListener {
+~ void onCreated(FileEvent)
+~ void onModified(FileEvent)
+~ void onDeleted(FileEvent)
+}
+class com.example.filescontrol.Watcher.FileAdapter {
+~ ListenedFiles listenedFiles
++ void onCreated(FileEvent)
++ void onModified(FileEvent)
++ void onDeleted(FileEvent)
++ void saveState(ListenedFile,boolean)
+}
+class com.example.filescontrol.HelloController {
++ TextField fileName
++ TextField dateEdit
++ TextField userEdit
++ TextArea causeEdit
++ ListView<ListenedFile> filesList
++ ListView<FileState> fileStates
+~ FileWatcher watcher
+~ ListenedFiles listenedFiles
+~ InvalidationListener listenerFile
+~ DirectoryChooser directoryChooser
++ void initialize(URL,ResourceBundle)
+- void configuringDirectoryChooser(DirectoryChooser)
+- void selectPath()
+- void about()
+}
+class com.example.filescontrol.FilesControl.ListenedFiles {
+~ ObservableList<ListenedFile> listenedFiles
++ ListenedFile get(File)
++ List<ListenedFile> getAll()
++ void save(ListenedFile)
+- void createdState(ListenedFile)
++ void update(ListenedFile,String[])
++ void delete(ListenedFile)
+}
+interface com.example.filescontrol.FilesControl.Dao {
+~ List<Object> getAll()
+~ void save(Object)
+~ void update(Object,String[])
+~ void delete(Object)
+}
+class com.example.filescontrol.HelloApplication {
++ void start(Stage)
++ {static} void main(String[])
+}
+
+
+com.example.filescontrol.FilesControl.Dao <|.. com.example.filescontrol.FilesControl.ListenedFile
+java.util.EventObject <|-- com.example.filescontrol.Watcher.FileEvent
+com.example.filescontrol.Watcher.Runnable <|.. com.example.filescontrol.Watcher.FileWatcher
+com.example.filescontrol.FilesControl.FileState +.. com.example.filescontrol.FilesControl.FileState.FileStateBuilder
+java.util.EventListener <|-- com.example.filescontrol.Watcher.FileListener
+com.example.filescontrol.Watcher.FileListener <|.. com.example.filescontrol.Watcher.FileAdapter
+javafx.fxml.Initializable <|.. com.example.filescontrol.HelloController
+com.example.filescontrol.FilesControl.Dao <|.. com.example.filescontrol.FilesControl.ListenedFiles
+javafx.application.Application <|-- com.example.filescontrol.HelloApplication
+@enduml
